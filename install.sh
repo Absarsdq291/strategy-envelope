@@ -52,8 +52,12 @@ pip install -r requirements.txt
 # Ajouter la tâche cron si elle n'existe pas déjà
 crontab -l | grep -q 'bash 1hcron.sh'
 if [ $? -ne 0 ]; then
-    # Ajouter la tâche cron
-    (crontab -l 2>/dev/null; echo "0 * * * * /bin/bash 1hcron.sh >> cronlog.log") | crontab -
+    # Get absolute paths
+    SCRIPT_PATH=$(realpath 1hcron.sh)
+    LOG_PATH=$(realpath cronlog.log)
+
+    # Add the cron job with the correct paths
+    (crontab -l 2>/dev/null; echo "*0 * * * * /bin/bash $SCRIPT_PATH >> $LOG_PATH 2>&1") | crontab -
     echo "Tâche cron ajoutée avec succès."
 else
     echo "La tâche cron existe déjà."
