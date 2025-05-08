@@ -57,7 +57,7 @@ if [ $? -ne 0 ]; then
     LOG_PATH=$(realpath cronlog.log)
 
     # Add the cron job with the correct paths
-    (crontab -l 2>/dev/null; echo "*0 * * * * /bin/bash $SCRIPT_PATH >> $LOG_PATH 2>&1") | crontab -
+    (crontab -l 2>/dev/null; echo "0 * * * * /bin/bash $SCRIPT_PATH >> $LOG_PATH 2>&1") | crontab -
     echo "Tâche cron ajoutée avec succès."
 else
     echo "La tâche cron existe déjà."
